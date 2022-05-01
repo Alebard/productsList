@@ -1,9 +1,22 @@
 import {accordeon, UI} from "./view.js";
 import {manufacturersCategory, products} from "./main.js";
+import {
+    addCart,
+    addCount,
+    changeInput,
+    delCount,
+    filterProductList,
+    getProductImage,
+} from "./app.js";
 
-export function renderProducts() {
+
+export function render() {
+    renderCategories()
+    renderProducts(products)
+}
+
+export function renderProducts(products) {
     products.forEach((product, index) => {
-        manufacturersCategory.add(product.Manufacturer_category)
         const productNode = getProductNode(product)
         UI.PRODUCT_LIST.append((productNode))
         if (index < products.length - 1) {
@@ -11,13 +24,38 @@ export function renderProducts() {
             UI.PRODUCT_LIST.append(hr)
         }
     })
-    document.querySelectorAll('.add').forEach((btn)=>{
+
+    document.querySelectorAll('.add').forEach((btn) => {
         btn.addEventListener('click', addCount)
     })
-    document.querySelectorAll('.del').forEach((btn)=>{
+    document.querySelectorAll('.del').forEach((btn) => {
         btn.addEventListener('click', delCount)
     })
+    document.querySelectorAll('.cart_add__btns').forEach((btn) => {
+        btn.addEventListener('click', addCart)
+    })
+    document.querySelectorAll('.input_count').forEach((input) => {
+        input.addEventListener('change', changeInput)
+    })
+
 }
+
+
+function renderCategories() {
+    manufacturersCategory.forEach((category) => {
+        const productsManufacturer = new Set()
+        products.forEach((product) => {
+            if (product.Manufacturer_category.toLowerCase() === category.toLowerCase()) {
+                productsManufacturer.add(product.Manufacturer)
+            }
+        })
+        renderCategoriesList(category, productsManufacturer)
+        document.querySelectorAll('.manufacturer_checkbox').forEach((item) => {
+            item.addEventListener('change', filterProductList)
+        })
+    })
+}
+
 
 export function renderCategoriesList(category, productsManufacturer) {
     const manufacturersCategory = document.createElement('div')
@@ -30,6 +68,7 @@ export function renderCategoriesList(category, productsManufacturer) {
     manufacturersCategory.append(manufacturersList)
     UI.CATEGORIES_LIST.append(manufacturersCategory)
     manufacturerTitle.addEventListener('click', accordeon)
+
 }
 
 function getManufacturersList(productsManufacturer) {
@@ -38,8 +77,8 @@ function getManufacturersList(productsManufacturer) {
     productsManufacturer.forEach((item) => {
         const label = document.createElement('label')
         label.className = 'manufacturer'
-        label.innerHTML = `<input type="checkbox">
-                            <div class="manufacturer_title">
+        label.innerHTML = `<input type="checkbox" class="manufacturer_checkbox">
+                            <div class="manufacturer_title" >
                             ${item}
                             </div>
                             `
@@ -49,11 +88,12 @@ function getManufacturersList(productsManufacturer) {
 }
 
 function getProductNode(product) {
+    const countClass = product.Stock > 0 ? 'blue' : ''
     const item = document.createElement('div')
     item.className = 'products_item product'
     item.innerHTML = `
         <div class="product_image">
-        <img src="${getProductImage(product)}" alt="">
+        <img loading="lazy" src="${getProductImage(product)}" alt="">
         </div>
         <div class="product_info">
             <div class="product_title">
@@ -78,7 +118,7 @@ function getProductNode(product) {
             </div>
             <div class="price_text">Ваша цена</div>
             <div class="cart">
-                <div class="stock">
+                <div class= "stock ${countClass}">
                     <div class="stock_text">
                         На складе:
                     </div>
@@ -87,15 +127,20 @@ function getProductNode(product) {
                     </div>
                 </div>
                 <div class="cart_links">
+                    <div class="cart_form">
                     <div class="cart_links__count">
                         <button class="del">-</button>
-                        <input type="text" class="input_count" value="1">
+                        <input type="text" class="input_count" value="0">
                         <button class="add">+</button>
                     </div>
                     <div class="cart_links__add">
-                        <button class="cart_add__btns">
+                        <button class="cart_add__btns" >
                             В корзину
                         </button>
+                    </div>
+                    </div>
+                    <div class="cart_added">
+                     Товар в<a href="#" onclick="return false">&nbsp;корзине</a>
                     </div>
                 </div>
             </div>
@@ -104,17 +149,3 @@ function getProductNode(product) {
     return item
 }
 
-
-export function addCount() {
-    const count = Number(this.previousElementSibling.value)
-    this.previousElementSibling.setAttribute('value', count + 1);
-}
-export function delCount() {
-    const count = Number(this.nextElementSibling.value)
-    if (count < 1) return
-    this.nextElementSibling.setAttribute('value', count - 1);
-}
-
-function getProductImage(product) {
-    return product.Image ? `${product.Image}` : `img/nonPhoto.png`
-}

@@ -1,8 +1,9 @@
 export const UI = {
     PRODUCT_LIST: document.querySelector('.products_list'),
-    CATEGORIES_LIST: document.querySelector('.manufacturers_categories')
-
+    CATEGORIES_LIST: document.querySelector('.manufacturers_categories'),
+    CHECKBOX: document.querySelectorAll('.manufacturer_checkbox')
 }
+
 
 export function accordeon() {
     const list = this.nextElementSibling

@@ -11,15 +11,39 @@
     <div class="sidebar">
         <div class="manufacturers">
             <div class="manufacturers_title">
-                Производители
+                ПРОИЗВОДИТЕЛИ
             </div>
             <div class="manufacturers_categories">
             </div>
         </div>
     </div>
     <div class="products">
-        <div class="products_wrapper"></div>
-        <div class="products_list">
+        <div class="products_wrapper">
+            <div class="products_filters">
+                <div class="filters_stock">
+                    <input type="checkbox" class="filters_stock__input">
+                    <span>
+                        В наличии
+                    </span>
+                </div>
+                <div class="filters_sort">
+                    <span>
+                        Сортировать по:
+                    </span>
+                    <select name="filters_select" id="1">
+                        <option value="abc" selected>алфавиту A-Я</option>
+                        <option value="price">цене</option>
+                    </select>
+                </div>
+                <div class="filters_show">
+                    <span>Показывать по:</span>
+                    <select name="show" id="2">
+                        <option value="30">30</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+            <div class="products_list"></div>
         </div>
     </div>
 </main>
