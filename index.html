@@ -15,35 +15,51 @@
             </div>
             <div class="manufacturers_categories">
             </div>
+            <div class="preview">
+                <p><span class="preview_count"></span>
+                <span>&nbsp;товаров </span></p>
+                <p class="preview_link">показать</p>
+            </div>
         </div>
     </div>
     <div class="products">
         <div class="products_wrapper">
             <div class="products_filters">
-                <div class="filters_stock">
-                    <input type="checkbox" class="filters_stock__input">
+                <label class="filters_stock">
+                    <span class="filters_checbox__custom">
+                                            <input  type="checkbox" class="filters_stock__checkbox" >
+                        <p class="custom_square"></p>
+                    </span>
                     <span>
                         В наличии
                     </span>
-                </div>
-                <div class="filters_sort">
+                </label>
+                <div >
                     <span>
                         Сортировать по:
                     </span>
-                    <select name="filters_select" id="1">
-                        <option value="abc" selected>алфавиту A-Я</option>
-                        <option value="price">цене</option>
+                    <select class="filters_sort" name="filters_select" id="1">
+                        <option value="a-z" selected>алфавиту A-Я</option>
+                        <option value="z-a" >алфавиту Я-А</option>
+                        <option value="price-low">наименьшей цене</option>
+                        <option value="price-high">наибольшей цене</option>
                     </select>
                 </div>
-                <div class="filters_show">
+                <div >
                     <span>Показывать по:</span>
-                    <select name="show" id="2">
+                    <select class="filters_show" name="show" id="2">
                         <option value="30">30</option>
                         <option value="100">100</option>
                     </select>
                 </div>
             </div>
             <div class="products_list"></div>
+            <div class="show-more">
+
+            </div>
+            <div class="pagination">
+
+            </div>
         </div>
     </div>
 </main>
